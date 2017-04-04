@@ -72,4 +72,21 @@ switch (argv.example) {
     });
     break;
   /*concurrency example end*/
+
+  /*sequential example start*/
+  case "sequential":
+    startSession(sessionid => {
+      addUser(firstUser, sessionid, err => {
+        if (err) console.error(err);
+        else addUser(secondUser, sessionid, err => {
+          if (err) console.error(err);
+          else addUser(thirdUser, sessionid, err => {
+            if (err) console.error(err);
+            else console.log('success!');
+          });
+        });
+      }));
+    });
+    break;
+  /*sequential example end*/
 }

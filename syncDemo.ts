@@ -37,7 +37,18 @@ switch (argv.example) {
     break;
   /*failing example end*/
 
-  /*concurrency start*/
+  /*Working example start*/
+  case "work":
+    {
+      const sessionId = startSession();
+      addUser(firstUser, sessionId);
+      console.log('tada!');
+    }
+    break;
+  /*Working example end*/
+
+  /*sequential/concurrent start*/
+  case "sequential":
   case "concurrent":
     {
       const sessionId = startSession();
@@ -50,15 +61,5 @@ switch (argv.example) {
       console.log(`there are ${users.length} user(s) added`);
     }
     break;
-  /*concurrency end*/
-
-  /*Working example start*/
-  case "work":
-    {
-      const sessionId = startSession();
-      addUser(firstUser, sessionId);
-      console.log('tada!');
-    }
-    break;
-  /*Working example end*/
+  /*sequential/concurrent end*/
 }

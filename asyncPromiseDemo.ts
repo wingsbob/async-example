@@ -34,6 +34,17 @@ switch (argv.example) {
     break;
   /*failing example end*/
 
+  /*Working example start*/
+  case "work":
+    startSessionPromised()
+      .then(sessionId =>
+        addUserPromised(firstUser, sessionId)
+      )
+      .then(() => console.log('added fine!'))
+      .catch(err => console.error('failed to add user!', err))
+    break;
+  /*Working example end*/
+
   /*concurrency start*/
   case "concurrent":
     startSessionPromised()
@@ -50,14 +61,17 @@ switch (argv.example) {
     break;
   /*concurrency end*/
 
-  /*Working example start*/
-  case "work":
+  /*sequential start*/
+  case "sequential":
     startSessionPromised()
-      .then(sessionId =>
-        addUserPromised(firstUser, sessionId)
-      )
-      .then(() => console.log('added fine!'))
-      .catch(err => console.error('failed to add user!', err))
+      .then((sessionId) =>
+          addUserPromised(firstUser, sessionId)
+          .then(() => addUserPromised(secondUser, sessionId))
+          .then(() => addUserPromised(thirdUser, sessionId))
+          .then(() => getUsersPromised(sessionId))
+        )
+      .then((users) => console.log(`there are ${users.length} user(s) added`))
+      .catch(e => console.error('bad times', e));
     break;
-  /*Working example end*/
+  /*sequential end*/
 }
